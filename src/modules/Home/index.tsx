@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import type { HomeExampleProps } from './types';
-import Counter from './components/Counter';
 import { Component as PhenomenonMarkIcon } from '@/icons/phenomenon-mark.svg?svgUse';
+import clsx from 'clsx';
+import Counter from './components/Counter';
 import s from './style.module.css';
 
 const Home: React.FC<HomeExampleProps> = () => {

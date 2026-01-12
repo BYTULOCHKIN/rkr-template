@@ -11,22 +11,26 @@ Table of contents:
   - [🚀 Quick start](#-quick-start)
   - [🤖 Commands](#-commands)
   - [🧶 Structure](#-structure)
-    - [API requests](#api-requests)
-      - [API queryClient options](#api-queryclient-options)
+    - [Core application structure](#core-application-structure)
+    - [Routing \& navigation](#routing--navigation)
+    - [Services \& API layer](#services--api-layer)
+    - [Application configuration \& utilities](#application-configuration--utilities)
+    - [Global application files](#global-application-files)
+      - [Build and output directories](#build-and-output-directories)
+      - [Configuration files](#configuration-files)
+      - [Linting and formatting configuration](#linting-and-formatting-configuration)
+      - [Git and development configuration](#git-and-development-configuration)
+      - [Editor and environment configurations](#editor-and-environment-configurations)
     - [Icons](#icons)
     - [Contexts](#contexts)
-    - [Stores](#stores)
     - [Hooks](#hooks)
-      - [API hooks](#api-hooks)
       - [Query hooks](#query-hooks)
         - [Query Keys](#query-keys)
       - [Mutation hooks](#mutation-hooks)
     - [Utility functions](#utility-functions)
     - [Constants](#constants)
       - [Schemas](#schemas)
-    - [Types](#types)
     - [Styles](#styles)
-    - [Components](#components)
       - [Anatomy](#anatomy)
     - [Modules](#modules)
       - [Submodules](#submodules)
@@ -40,32 +44,35 @@ Table of contents:
 ---
 
 ## 📦 Stack
--   [React.js](https://reactjs.org) - UI library
--   [Typescript](https://www.typescriptlang.org) - Static type checker
--   [Vite](https://vitejs.dev/) - Bundler
--   [Tanstack Query](https://tanstack.com/query/latest/docs/framework/react/overview) - Asynchronous state management
--   [Tanstack Router](https://tanstack.com/router/latest/docs/framework/react/overview) - Routing (file-based)
--   [Axios](https://axios-http.com/docs/intro) - HTTP client
--   [Zod](https://zod.dev/) - Schema validation
--   [React Hook Form](https://react-hook-form.com/) - Form management
--   [@svg-use](https://github.com/fpapado/svg-use) - icon management tool
--   [Eslint](https://eslint.org/) - Code linter
--   [Prettier](https://prettier.io/) - Code formatter
--   [Husky](https://typicode.github.io/husky/) - commands execution handler on git events
+
+- **[Vite](https://vitejs.dev)** - Lightning-fast build tool with HMR;
+- **[React](https://react.dev)** - Core framework with compiler optimizations;
+- **[TypeScript](https://www.typescriptlang.org)** - Type-safe development with strict mode;
+- **[TanStack Router](https://tanstack.com/router/latest)** - Type-safe, file-based routing with code-splitting;
+- **[TanStack Query](https://tanstack.com/query/latest)** - Powerful async state management;
+- **[TanStack Form](https://tanstack.com/form/latest)** - Type-safe form state management;
+- **[TailwindCSS](https://tailwindcss.com)** - Utility-first styling;
+- **[Ky](https://github.com/sindresorhus/ky)** - Modern HTTP client;
+- **[Zod](https://zod.dev)** - TypeScript-first schema validation;
+- **[ESLint](https://eslint.org)**, **[Prettier](https://prettier.io)**, **[StyleLint](https://stylelint.io)**, **[Husky](https://typicode.github.io/husky)** - Code quality and formatting;
 
 
 ##  🚀 Quick start
 
 1. Install [Node.js](https://nodejs.org);
-    > Require [Node.js](https://nodejs.org) version >=22.0.0
+    > Require [Node.js](https://nodejs.org) version >=22
 2. Install the NPM dependencies by running `npm ci`;
 3. Create `.env.local` then add variables. You can look at the `.env.local.example` file;
 
 ## 🤖 Commands
 
--   Runs the local dev server at `localhost:3000`:
+-   Runs the local dev server at `localhost:9777`:
     ```
     npm run dev:vite
+    ```
+-   Runs the local dev server at `localhost:9777` in the scan mode:
+    ```
+    npm run dev:vite:scan
     ```
 -   Runs `tsc` CLI in watch mode:
     ```
@@ -75,13 +82,21 @@ Table of contents:
     ```
     npm run dev
     ```
+-   Runs the local dev server in the scan mode and `tsc` together:
+    ```
+    npm run dev:scan
+    ```
 -   Builds your production site to `./dist/`:
     ```
     npm run build
     ```
--   Previews your build locally, before deploying at `localhost:4173`:
+-   Previews your build locally, before deploying at `localhost:9111`:
     ```
     npm run preview
+    ```
+-   Runs `tsc` CLI:
+    ```
+    npm run tsc
     ```
 -   Checks your JavaScript/TypeScript for errors and warnings:
     ```
@@ -103,60 +118,143 @@ Table of contents:
     ```
     npm run fix:prettier
     ```
+-   Finds and fixes unused dependencies, exports and files:
+    ```
+    npm run knip
+    ```
 -   Installs husky:
-    ```bash
+    ```
     npm run prepare
     ```
 
 ## 🧶 Structure
 
-### API requests
 
-API requests are created globally in the root of the project to be used inside API hooks. API request are not directly called in project, only in hooks.
+### Core application structure
 
-API requests should be located inside `src/api` folder.
+-   `src/components` - contains shared components with business logic. These are reusable components that may include some business logic. Each component should consist of:
+    -   `index.tsx` - the component file itself;
+    -   `styles.module.css` - styles of component file. This file is optional, since we use TailwindCSS;
+    -   `types.ts` - types of component file (optional);
+    -   `hooks` - contains component hooks dir (optional). Should consist of:
+        -   `<hookName>.ts` - the hook file itself;
+    -   `constants.ts` - constants of component file (optional);
+    -   `utils` - utils dir of component file (optional). Should consist of:
+        -   `<utilName>.ts` - the util file itself;
+    -   `schemas.ts` - schemas of component file (optional);
+    -   `regexps.ts` - regexps of component file (optional);
+    -   `context` - the context dir of component file (optional). Should consist of:
+        -   `<ContextName>.tsx` - the context file itself;
+    -   `components` - the components dir of components (optional). Should consist of like `src/components`;
 
-API requests are performed with some library like `ky`, `axios` etc. Based on the library, `src/api` folder should contain the appropriate file `@ky.ts` or `@axios.ts`. This file should contain all instances for all origins.
+-   `src/components/layouts` - contains layout components for different application layouts. Each layout component should:
+    -   have same structure as `src/components` has;
+    -   include `<Outlet />` as a child of component;
 
-Example:
-```ts
-// @axios.ts
+-   `src/components/ui` - contains basic UI components without business logic like button, input etc. Each component should consist of that files:
+    -   `index.tsx` - the component file itself;
+    -   `styles.module.css` - styles of component file. This file is optional, since we use TailwindCSS;
+    -   `types.ts` - types of component file (optional);
+    -   `hooks` - contains component hooks dir (optional). Should consist of:
+        -   `<hookName>.ts` - the hook file itself;
+    -   `constants.ts` - constants of component file (optional);
+    -   `schemas.ts` - schemas of component file (optional);
+    -   `regexps.ts` - regexps of component file (optional);
+    -   `utils` - utils dir of component file (optional). Should consist of:
+        -   `<utilName>.ts` - the util file itself;
 
-export const http = axios.create(...);
-export const httpPrivate = axios.create(...);
-```
+-   `src/modules` - contains independent features that have their own area of responsibility. These features can fetch data and have complete business logic. Each module should consist of:
+    -   `index.tsx` - the component file itself;
+    -   `styles.module.css` - styles of component file. This file is optional, since we use TailwindCSS;
+    -   `types.ts` - types of component file (optional);
+    -   `hooks` - contains component hooks dir (optional). Should consist of:
+        -   `<hookName>.ts` - the hook file itself;
+    -   `constants.ts` - constants of component file (optional);
+    -   `utils` - utils dir of component file (optional). Should consist of:
+        -   `<utilName>.ts` - the util file itself;
+    -   `schemas.ts` - schemas of component file (optional);
+    -   `regexps.ts` - regexps of component file (optional);
+    -   `context` - the context dir of component file (optional). Should consist of:
+        -   `<ContextName>.tsx` - the context file itself;
+    -   `components` - the components dir of components (optional). Should consist of like `src/components`;
 
-API requests should:
-- be separated to files based on its scope. 
-  - Example: users requests -> `users.ts`; forms requests -> `forms.ts`
+### Routing & navigation
 
-#### API queryClient options
+-   `src/routes` - application route definitions using Tanstack Router with file-based routing. Should contain `src/modules` and may have other route-specific components. Read more [here](https://tanstack.com/router/latest/docs/framework/react/overview);
 
-When Tanstack Query is used, queryClient entity is created once on project start, and is used within all the application. By setting it in global api folder, we will be able to use it wherever needed in the app.
+### Services & API layer  
 
-The query client configuration file should be located at `src/tanstackQuery/@queryClient.ts` and include configuration as follows as bare minimum:
-```ts
-import { QueryClient } from '@tanstack/react-query';
+-   `src/services` - contains service layer for API calls and external integrations:
+    -   `<serviceName>/` - service directories organized by feature or domain;
+        - `api.ts` - API service file;
+        - `queries.ts` - file with queries and mutations hooks;
+        - `queryKeys.ts` - file with queries and mutations keys;
+        - `types.ts` - types of service file: request and response types;
+  
 
-export const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false,
-            retry: 1,
-        },
-        mutations: {
-            retry: 1,
-        },
-    },
-});
-```
+### Application configuration & utilities
 
-This configuration should be passed to `<QueryClientProvider />` in `src/main.tsx` file.
+-   `src/lib` - contains core application utilities and configurations:
+    -   `@http.ts` - HTTP client configuration and utilities;
+    -   `@queryClient.ts` - Tanstack Query client configuration;
+    -   `constants.ts` - global application constants;
+    -   `schemas.ts` - global validation schemas;
+    -   `regexps.ts` - global regular expressions;
+    -   `types.ts` - global TypeScript type definitions;
+    -   `utils/` - global utility functions directory:
+        -   `<utilDirName>/` - directory for grouped utility functions (optional);
+        -   `<utilName>.ts` - individual utility files;
 
->NOTE: This configuration as allowed to be used wherever using `useQueryClient` hook is not allowed:
->- routes loaders
->- functions may include api logic (setting query data etc.)
+### Global application files
 
+-   `src/hooks` - contains global hooks directory:
+    -   `<hookName>.ts` - global hook files;
+-   `src/context` - global React context providers:
+    -   `<ContextName>.tsx` - global context files;
+-   `src/styles` - contains global style files:
+    -   `index.css` - the main CSS file;
+-   `src/main.tsx` - entry point of the application;
+-   `src/vite-env.d.ts` - Vite environment type definitions. This file should be updated every time you add new environment variables;
+-   `src/routeTree.gen.ts` - auto-generated route tree file (do not edit manually);
+-   `public/` - can contain static files such as images, fonts, videos, documents, favicons, etc.;
+
+
+#### Build and output directories
+
+-   `dist/` - production build output directory (generated after `npm run build`);
+-   `tmp/` - temporary files directory containing:
+    -   `bundle-visualizer.html` - bundle size analysis report (generated after build with rollup-plugin-visualizer);
+
+#### Configuration files
+
+-   `index.html` - main HTML template file with meta tags, font loading, and root div element;
+-   `vite.config.ts` - Vite configuration including plugins, build settings, and dev server options;
+-   `tsconfig.json` - main TypeScript configuration;
+-   `tsconfig.app.json` - TypeScript configuration for application code;
+-   `tsconfig.node.json` - TypeScript configuration for Node.js (Vite config);
+-   `package.json` - project dependencies, scripts, and metadata;
+-   `package-lock.json` - exact dependency versions lock file;
+
+#### Linting and formatting configuration
+
+-   `eslint.config.js` - ESLint configuration for JavaScript/TypeScript linting;
+-   `prettier.config.js` - Prettier configuration for code formatting;
+-   `.prettierignore` - files and directories to ignore during Prettier formatting;
+-   `.stylelintrc` - Stylelint configuration for CSS linting;
+
+#### Git and development configuration
+
+-   `.gitignore` - Git ignore rules specifying which files to exclude from version control;
+-   `.gitattributes` - Git attributes configuration for line endings and file handling;
+-   `.husky/` - Git hooks directory for pre-commit and commit-msg validation;
+-   `commitlint.config.cjs` - commit message linting configuration;
+
+#### Editor and environment configurations
+
+-   `.editorconfig` - editor configuration for consistent coding styles;
+-   `.npmrc` - NPM configuration settings;
+-   `.env.local.example` - example environment variables file (template for `.env.local`);
+-   `.env.local` - local environment variables (should be created manually, not committed to git);
 
 ### Icons
 
@@ -188,26 +286,6 @@ Each context should:
 const AuthContext = createContext(...);
 ```
 
-### Stores
-
-Stores are optional for the root of the project. Current rules are applied for `zustand` stores
-
-Stores are allowed to use in all the project.
-
-Stores should:
-- Have separate root `src/stores` folder
-
-Each store should:
-- Have camel case name, ending with `<storeName>Store` (example: `authStore.tsx`)
-- NOTE: The store file name should match the store hook name name inside the file
-  - `<storeName>Store.ts` -> `use<StoreName>Store.ts`
-
-``` ts
-// src/stores/authStore.ts
-
-export const useAuthStore = create(...)
-```
-
 ### Hooks
 
 Hooks are optional for the root of the project and components among all the project.
@@ -227,20 +305,6 @@ Each hook should:
 
 export const useHavePermissions = () => {...}
 ```
-
-#### API hooks
-
-Because of using Tanstack query, and its hooks mechanic, following the TkDodo's recommendations, all API requests should be inside custom hooks that call `useQuery` and `useMutation` hooks. API requests were described in the relevant section above.
-
-API hooks should be located inside `src/tanstackQuery` folder.
-
-API hooks should:
-- be named for the api file. `src/api/users.ts` -> `src/tanstackQuery/users.ts`
-- contain all hooks for every function declared in the api requests file
-
-Single API hook should:
-- be named for the api request function. `<requestName>` -> `use<RequestName>`
-  - Example: `submitForm` -> `useSubmitForm`
 
 #### Query hooks
 
@@ -271,7 +335,7 @@ It is also recommended to manage query keys in appropriate way to use them insid
 
 First things first, you should create the constant that includes queryKeys:
 ```ts
-// src/tanstackQuery/books.ts
+// src/services/books/queryKeys.ts
 
 export const BOOKS_QUERY_KEYS = {
     all: ['books'] as const,
@@ -307,12 +371,12 @@ And apply this in:
   }
 
   export const useGetBooks = (search: string) => {
-    return getBooksQueryOptions(search);
+    return useQuery(getBooksQueryOptions(search));
   }
   ```
 - Query invalidations:
   ```ts
-  import { BOOKS_QUERY_KEYS } from '@/tanstackQuery/books';
+  import { BOOKS_QUERY_KEYS } from '@/services/books/queryKeys';
 
   queryClient.invalidateQueries({
     queryKey: BOOKS_QUERY_KEYS.list()
@@ -320,7 +384,7 @@ And apply this in:
   ```
 - Query prefetches:
   ```ts
-  import { BOOKS_QUERY_KEYS } from '@/tanstackQuery/books';
+  import { BOOKS_QUERY_KEYS } from '@/services/books/queryKeys';
 
   queryClient.prefetchQuery({
      queryKey: BOOKS_QUERY_KEYS.list()
@@ -338,32 +402,33 @@ And apply this in:
 Mutation hooks from `useMutation` return the callable function as result, so no need to pass the arguments into hook call. But everything can happen to pass initial arguments into hook body directly for query client logic or whatever.
 
 ```ts
-// src/tanstackQuery/books.ts
-
+// src/services/books/api.ts
 export const addBookToFavorites = (bookId: string) => {...}
+```
 
-// src/tanstackQuery/books.ts
+```ts
+// src/services/books/queries.ts
+import { addBookToFavorites } from './api';
 
-import { addBookToFavorites } from '@/tanstackQuery/books';
-
-export const useAddBookToFavorites = () => {
-    return useMutation({
+export const addBookToFavoritesMutationOptions = () => {
+    return mutationOptions({
         mutationFn: addBookToFavorites
         // ...
     })
 }
-
+```
+```ts
 // somewhere
-import { useAddBookToFavorites } from '@/tanstackQuery/books';
+import { useMutation } from '@tanstack/react-query';
+import { addBookToFavoritesMutationOptions } from '@/services/books/queries';
 
 // ...
 
-const { mutate: addBookToFavorites } = useAddBookToFavorites();
+const { mutate: addBookToFavorites } = useMutation(addBookToFavoritesMutationOptions());
 
 // ...
 
 addBookToFavorites(bookId, {...})
-
 ```
 
 ### Utility functions
@@ -425,18 +490,6 @@ export const signUpSchema = z.object({...});
 export type SignUpSchema = z.infer<typeof signUpSchema>;
 ```
 
-### Types
-
-Types are optional for the root of the project and components among all the project.
-
-The root project types should include:
-- Generic global types
-- Global primitive types for several components
-
-The components types should include:
-- Component props
-- Components props partitions
-
 ### Styles
 
 Styles are optional for the root of the project and components among all the project.
@@ -448,15 +501,6 @@ This folder should include:
 - `variables.css` - (optional) global variables file. This file can be created if there are a lot of variables to create and manage them easily. In case of ~25 variables they can still be maintained in `index.css`.
 - `fonts.css` - (optional) global fonts to be implemented through `@font-face` directive.
 
-### Components
-Components should be located at:
-- `src/ui`
-  - basic primitive components (Example: buttons, typography, wrappers etc.)
-  - do not have complex logic (complex hooks, contexts)
-  - can NOT use `src/components` components inside
-- `src/components`
-  - complex components use `src/ui` components inside as building blocks
-  - Can have any types of hooks, contexts inside
 
 
 #### Anatomy
