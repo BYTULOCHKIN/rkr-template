@@ -6,9 +6,9 @@ import { getRefreshToken, removeAuthToken, removeRefreshToken, setAuthToken, set
 let isRedirecting = false;
 let isRefreshing = false;
 let failedQueue: Array<{
-    resolve: (value: unknown) => void;
+    resolve: (_value: unknown) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    reject: (reason?: any) => void;
+    reject: (_reason?: any) => void;
 }> = [];
 
 const handleFailedQueue = (error: unknown | null) => {
