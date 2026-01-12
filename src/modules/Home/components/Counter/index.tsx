@@ -5,17 +5,17 @@ import s from './style.module.css';
 const Counter: React.FC = () => {
     const [count, setCount] = React.useState(0);
 
-    const increment = React.useCallback(() => {
+    const increment = () => {
         setCount((prev) => {
             return prev + 1;
         });
-    }, []);
+    };
 
-    const decrement = React.useCallback(() => {
+    const decrement = () => {
         setCount((prev) => {
             return prev - 1;
         });
-    }, []);
+    };
 
     return (
         <article className={s.wrap}>

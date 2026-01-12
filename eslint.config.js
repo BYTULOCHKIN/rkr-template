@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import pluginTanstackQuery from '@tanstack/eslint-plugin-query';
+import pluginTanstackRouter from '@tanstack/eslint-plugin-router';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import react from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
@@ -15,13 +16,17 @@ export default tseslint.config({
         eslintPluginPrettierRecommended,
         pluginTanstackQuery.configs['flat/recommended'],
     ],
-    plugins: { react, 'react-hooks': reactHooksPlugin, '@tanstack/query': pluginTanstackQuery },
+    plugins: {
+        react,
+        'react-hooks': reactHooksPlugin,
+        '@tanstack/router': pluginTanstackRouter,
+        '@tanstack/query': pluginTanstackQuery,
+    },
     languageOptions: {
         parserOptions: {
             project: ['./tsconfig.app.json', './tsconfig.node.json', './tsconfig.json'],
             tsconfigRootDir: import.meta.dirname,
-            projectService: true,
-            ecmaVersion: 2021,
+            ecmaVersion: 2022,
             ecmaFeatures: {
                 jsx: true,
             },
@@ -36,7 +41,19 @@ export default tseslint.config({
         },
     },
     rules: {
-        ...reactHooksPlugin.configs.recommended.rules,
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
+        'react-hooks/use-memo': 'error',
+        'react-hooks/component-hook-factories': 'error',
+        'react-hooks/unsupported-syntax': 'warn',
+        'react-hooks/error-boundaries': 'error',
+        'react-hooks/static-components': 'error',
+        'react-hooks/set-state-in-effect': 'error',
+        'react-hooks/set-state-in-render': 'error',
+        'react-hooks/refs': 'error',
+        'react-hooks/globals': 'error',
+        'react-hooks/immutability': 'error',
+        'react-hooks/purity': 'error',
         'react/react-in-jsx-scope': ['off'],
         'react/prop-types': ['off'],
         'react/no-unused-prop-types': ['error'],

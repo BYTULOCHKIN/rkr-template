@@ -1,32 +1,50 @@
+import type { Config } from '@svg-use/react';
 import React from 'react';
-import { queryClient } from '@/tanstackQuery/@queryClient';
+import ReactDOM from 'react-dom/client';
 import { configContext as SvgUseConfigContext } from '@svg-use/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
-import ReactDOM from 'react-dom/client';
-import type { Config } from '@svg-use/react';
-
+import { queryClient } from '@/lib/@queryClient';
+import { envSchema } from '@/lib/schemas';
+import { checkEnv } from '@/lib/utils/checkEnv';
 import { routeTree } from './routeTree.gen';
 
 import '@/styles/index.css';
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+    routeTree,
+    context: {
+        queryClient,
+    },
+    defaultPreload: 'intent',
+    defaultPreloadStaleTime: 0,
+    scrollRestoration: true,
+    defaultPendingMs: 100,
+    defaultPendingMinMs: 500,
+    // TODO: Add when UI designs are ready
+    // defaultNotFoundComponent: NotFound,
+    // defaultErrorComponent: ErrorComponent,
+    // defaultPendingComponent() {
+    //     return <Loader className="size-16 m-auto" />;
+    // },
+});
 declare module '@tanstack/react-router' {
     interface Register {
         router: typeof router;
     }
 }
 
-const config: Config = {
+const svgUseConfig: Config = {
     rewritePath: (pathOrHref) => {
         return pathOrHref;
     },
     runtimeChecksEnabled: import.meta.env.DEV,
 };
 
+checkEnv(envSchema);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <SvgUseConfigContext.Provider value={config}>
+        <SvgUseConfigContext.Provider value={svgUseConfig}>
             <QueryClientProvider client={queryClient}>
                 <RouterProvider router={router} />
             </QueryClientProvider>

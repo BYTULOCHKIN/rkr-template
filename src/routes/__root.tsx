@@ -1,24 +1,36 @@
 import React from 'react';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 
-const TanStackRouterDevtools = import.meta.env.DEV
+const TanStackDevtools = import.meta.env.DEV
     ? React.lazy(async () => {
-          const res = await import('@tanstack/router-devtools');
+          const res = await import('@tanstack/react-devtools');
 
           return {
-              default: res.TanStackRouterDevtools,
+              default: res.TanStackDevtools,
           };
       })
     : () => {
           return null;
       };
 
-const ReactQueryDevtools = import.meta.env.DEV
+const TanStackRouterDevtoolsPanel = import.meta.env.DEV
+    ? React.lazy(async () => {
+          const res = await import('@tanstack/router-devtools');
+
+          return {
+              default: res.TanStackRouterDevtoolsPanel,
+          };
+      })
+    : () => {
+          return null;
+      };
+
+const ReactQueryDevtoolsPanel = import.meta.env.DEV
     ? React.lazy(async () => {
           const res = await import('@tanstack/react-query-devtools');
 
           return {
-              default: res.ReactQueryDevtools,
+              default: res.ReactQueryDevtoolsPanel,
           };
       })
     : () => {
@@ -31,8 +43,23 @@ export const Route = createRootRoute({
             <>
                 <Outlet />
                 <React.Suspense>
-                    <TanStackRouterDevtools />
-                    <ReactQueryDevtools />
+                    <TanStackDevtools
+                        config={{
+                            position: 'bottom-right',
+                        }}
+                        plugins={[
+                            {
+                                name: 'TanStack Query',
+                                render: <ReactQueryDevtoolsPanel />,
+                                defaultOpen: true,
+                            },
+                            {
+                                name: 'TanStack Router',
+                                render: <TanStackRouterDevtoolsPanel />,
+                                defaultOpen: false,
+                            },
+                        ]}
+                    />
                 </React.Suspense>
             </>
         );
