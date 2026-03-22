@@ -1,6 +1,6 @@
 # React-TS Project template
 
-> by Phenomenon.Studio
+> by rkr (Ruslan Krasiuk)
 
 This project was bootstrapped with [Vite.js](https://vitejs.dev).
 

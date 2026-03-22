@@ -2,11 +2,20 @@
 
 :root {
     /* Common Variables */
-    --color-white-100: hsl(0deg 0% 100%);
-    --color-primary: hsl(25deg 88% 52%);
-    --color-dark-900: hsl(180deg 4% 9%);
-    --color-dark-700: hsl(226.7deg 10.6% 16.7%);
-    --color-dark-600: hsl(225deg 15% 21%);
+    --color-white-100: #ffffff;
+    --color-white-200: #faf9f7;
+    --color-white-300: #fbfaf9;
+    --color-white-400: #d9d9d9;
+    --color-white-500: #f8f9fa;
+    --color-white-600: #d2d7da;
+    --color-white-700: #f7f2ee;
+    --color-primary: #b65633;
+    --color-secondary: #8e8d70;
+    --color-secondary-beige: #d0c1b1;
+    --color-dark-1000: #000000;
+    --color-dark-900: #282828;
+    --color-dark-600: #737b8f;
+    --color-border: #e5e6ea;
 
     /* Focus Ring */
     --ring-width: 2px;
@@ -16,19 +25,49 @@
 
     /* Scroll Bar */
     --scrollbar-size: 6px;
-    --scrollbar-track-color: hsl(0deg 0% 87.5%);
-    --scrollbar-thumb-color: hsl(0deg 0% 68.6%);
+    --scrollbar-track-color: var(--color-white-400);
+    --scrollbar-thumb-color: var(--color-secondary);
     --scrollbar-thumb-color-hover: hsl(210deg 11.2% 51%);
 
-    /* Companies colors */
-    --color-react: hsl(192.5deg 95.1% 68.2%);
-    --color-typescript: hsl(211.4deg 60.3% 48.4%);
-    --gradient-vite: linear-gradient(-45deg, hsl(280.7deg 99% 60%) 0%, hsl(197.3deg 100% 63.9%) 100%);
-    --gradient-tanstack-router: linear-gradient(-45deg, hsl(83.7deg 80.5% 44.3%) 0%, hsl(160.1deg 84.1% 39.4%) 100%);
+    /* ── Небезпека (danger) ─────────────────────────────────────────────────── */
+    --color-danger: #dc2626; /* red-600                               */
+    --color-danger-hover: #b91c1c; /* red-700                               */
+    --color-danger-active: #991b1b; /* red-800                               */
+    --color-danger-fg: var(--color-white-100); /* white                               */
+
+    /* ── Поверхні ───────────────────────────────────────────────────────────── */
+    --color-surface-raised: #f1f5f9; /* slate-100                      */
+    --color-surface-raised-hover: #c65e37; /* slate-200                      */
+    --color-surface-raised-active: #9d4a2c; /* slate-300                      */
+
+    /* ── Текст ──────────────────────────────────────────────────────────────── */
+    --color-text-primary: #0f172a; /* slate-900                             */
+    --color-text-secondary: #64748b; /* slate-500                             */
+
+    /* ── Радіуси ────────────────────────────────────────────────────────────── */
+    --radius-sm: 2rem; /* 32px  */
+    --radius-md: 2.875rem; /* 46px  */
+    --radius-lg: 6.25rem; /* 100px  */
+
+    /* ── Розміри кнопок ─────────────────────────────────────────────────────── */
+    --button-height-big: 2.875rem; /* 46px */
+    --button-height-medium: 2.25rem; /* 36px */
+    --button-height-small: 1.25rem; /* 20px */
+    --button-px-big: 2.625rem; /* горизонтальний padding */
+    --button-px-medium: 1rem;
+    --button-px-small: 0.75rem;
+    --button-font-size-big: 1rem; /* 16px */
+    --button-font-size-medium: 0.875rem; /* 14px */
+    --button-font-size-small: 0.8125rem; /* 13px */
+}
+
+::selection {
+    color: white;
+    background-color: var(--color-primary); /* The background color of the selection */
 }
 
 body {
-    font-family: "Syne", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 .sr-only {

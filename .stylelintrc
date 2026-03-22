@@ -90,7 +90,12 @@
         "value-keyword-case": "lower",
         "color-function-notation": null,
         "value-no-vendor-prefix": null,
-        "selector-class-pattern": "^[a-z][a-z0-9-]+$",
+        "selector-class-pattern": [
+            "^[a-z][a-zA-Z0-9]*(-[a-z0-9]+)*$",
+            {
+                "message": "Селектори класів повинні бути в camelCase (myClass) або kebab-case (my-class). Це забезпечує консистентність коду та зручність роботи з CSS-модулями."
+            }
+        ],
         "selector-id-pattern": "^[a-z][a-z0-9-]+$",
         "alpha-value-notation": "number",
         "font-family-name-quotes": "always-unless-keyword"
