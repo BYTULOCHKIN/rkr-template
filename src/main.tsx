@@ -18,6 +18,7 @@ import '@fontsource/poppins/700.css';
 
 const router = createRouter({
     routeTree,
+    basepath: import.meta.env.BASE_URL,
     context: {
         queryClient,
     },
