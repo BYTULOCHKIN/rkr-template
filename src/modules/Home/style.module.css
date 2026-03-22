@@ -10,7 +10,9 @@
 .mStripe {
     display: flex;
     flex-shrink: 0;
-    height: 4px;
+    height: 1rem;
+    position: sticky;
+    top: 0;
 }
 
 .mStripe span {
