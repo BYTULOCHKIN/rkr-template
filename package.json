@@ -35,6 +35,7 @@
         "@tanstack/react-router": "^1.147.3",
         "clsx": "^2.1.1",
         "ky": "^1.14.2",
+        "motion": "^12.38.0",
         "postcss-custom-media": "^12.0.1",
         "react": "^19.2.3",
         "react-dom": "^19.2.3",

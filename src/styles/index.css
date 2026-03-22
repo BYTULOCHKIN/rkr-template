@@ -9,61 +9,61 @@
     --color-white-500: #f8f9fa;
     --color-white-600: #d2d7da;
     --color-white-700: #f7f2ee;
-    --color-primary: #b65633;
-    --color-secondary: #8e8d70;
+    --color-primary: #1c69d4;
+    --color-secondary: #cc0000;
     --color-secondary-beige: #d0c1b1;
     --color-dark-1000: #000000;
-    --color-dark-900: #282828;
-    --color-dark-600: #737b8f;
-    --color-border: #e5e6ea;
+    --color-dark-900: #0a0a0a;
+    --color-dark-600: #111111;
+    --color-border: #1e1e1e;
 
     /* Focus Ring */
     --ring-width: 2px;
     --ring-color: var(--color-primary);
-    --ring-offset-shadow: 0 0 0 0 var(--color-white-100);
+    --ring-offset-shadow: 0 0 0 0 var(--color-dark-900);
     --ring-shadow: 0 0 0 var(--ring-width) var(--ring-color);
 
     /* Scroll Bar */
     --scrollbar-size: 6px;
-    --scrollbar-track-color: var(--color-white-400);
-    --scrollbar-thumb-color: var(--color-secondary);
-    --scrollbar-thumb-color-hover: hsl(210deg 11.2% 51%);
+    --scrollbar-track-color: #1a1a1a;
+    --scrollbar-thumb-color: #333333;
+    --scrollbar-thumb-color-hover: #444444;
 
     /* ── Небезпека (danger) ─────────────────────────────────────────────────── */
-    --color-danger: #dc2626; /* red-600                               */
-    --color-danger-hover: #b91c1c; /* red-700                               */
-    --color-danger-active: #991b1b; /* red-800                               */
-    --color-danger-fg: var(--color-white-100); /* white                               */
+    --color-danger: #dc2626;
+    --color-danger-hover: #b91c1c;
+    --color-danger-active: #991b1b;
+    --color-danger-fg: var(--color-white-100);
 
     /* ── Поверхні ───────────────────────────────────────────────────────────── */
-    --color-surface-raised: #f1f5f9; /* slate-100                      */
-    --color-surface-raised-hover: #c65e37; /* slate-200                      */
-    --color-surface-raised-active: #9d4a2c; /* slate-300                      */
+    --color-surface-raised: #181818;
+    --color-surface-raised-hover: #1557b8;
+    --color-surface-raised-active: #0f4499;
 
     /* ── Текст ──────────────────────────────────────────────────────────────── */
-    --color-text-primary: #0f172a; /* slate-900                             */
-    --color-text-secondary: #64748b; /* slate-500                             */
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #737b8f;
 
     /* ── Радіуси ────────────────────────────────────────────────────────────── */
-    --radius-sm: 2rem; /* 32px  */
-    --radius-md: 2.875rem; /* 46px  */
-    --radius-lg: 6.25rem; /* 100px  */
+    --radius-sm: 2rem;
+    --radius-md: 2.875rem;
+    --radius-lg: 6.25rem;
 
     /* ── Розміри кнопок ─────────────────────────────────────────────────────── */
-    --button-height-big: 2.875rem; /* 46px */
-    --button-height-medium: 2.25rem; /* 36px */
-    --button-height-small: 1.25rem; /* 20px */
-    --button-px-big: 2.625rem; /* горизонтальний padding */
+    --button-height-big: 2.875rem;
+    --button-height-medium: 2.25rem;
+    --button-height-small: 1.25rem;
+    --button-px-big: 2.625rem;
     --button-px-medium: 1rem;
     --button-px-small: 0.75rem;
-    --button-font-size-big: 1rem; /* 16px */
-    --button-font-size-medium: 0.875rem; /* 14px */
-    --button-font-size-small: 0.8125rem; /* 13px */
+    --button-font-size-big: 1rem;
+    --button-font-size-medium: 0.875rem;
+    --button-font-size-small: 0.8125rem;
 }
 
 ::selection {
-    color: white;
-    background-color: var(--color-primary); /* The background color of the selection */
+    color: var(--color-white-100);
+    background-color: var(--color-primary);
 }
 
 body {

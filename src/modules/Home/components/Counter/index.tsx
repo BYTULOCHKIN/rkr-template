@@ -1,5 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
+import { Button } from '@/components/Button/Button';
+import Typography from '@/components/Typography/Typography';
 import s from './style.module.css';
 
 const Counter: React.FC = () => {
@@ -12,6 +14,7 @@ const Counter: React.FC = () => {
     };
 
     const decrement = () => {
+        if (count === 0) return;
         setCount((prev) => {
             return prev - 1;
         });
@@ -19,16 +22,16 @@ const Counter: React.FC = () => {
 
     return (
         <article className={s.wrap}>
-            <div className={s['counter-wrap']}>
-                Count:&nbsp;<strong>{count}</strong>
-            </div>
+            <Typography className={s['counter-wrap']}>
+                ENGINE REPLACES COUNTER:&nbsp;<strong>{count}</strong>
+            </Typography>
             <footer className={s.footer}>
-                <button className={clsx(s.cta, 'focus-primary')} onClick={decrement}>
+                <Button className={clsx(s.cta, 'focus-primary')} onClick={decrement}>
                     -
-                </button>
-                <button className={clsx(s.cta, 'focus-primary')} onClick={increment}>
+                </Button>
+                <Button className={clsx(s.cta, 'focus-primary')} onClick={increment}>
                     +
-                </button>
+                </Button>
             </footer>
         </article>
     );
